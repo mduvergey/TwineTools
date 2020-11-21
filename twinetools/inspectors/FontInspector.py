@@ -13,4 +13,7 @@ class FontInspector:
 
     def print_report(self):
         print('-- Referenced fonts --')
-        print(sorted(self.font_refs))
+        if len(self.font_refs):
+            print(sorted(self.font_refs))
+        else:
+            print('No font references found.')

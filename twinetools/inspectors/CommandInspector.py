@@ -26,8 +26,11 @@ class CommandInspector:
 
     def print_report(self):
         print('-- Commands --')
-        for key, value in sorted(self.distinct_commands.items()):
-            print('{0}: {1}'.format(key, len(value)))
+        if len(self.distinct_commands):
+            for key, value in sorted(self.distinct_commands.items()):
+                print('{0}: {1}'.format(key, len(value)))
+        else:
+            print('No commands found.')
         if len(self.unknown_commands):
             print('-- Unknown commands --')
             for uc in self.unknown_commands:
