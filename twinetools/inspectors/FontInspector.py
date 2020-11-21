@@ -12,4 +12,5 @@ class FontInspector:
                 self.font_refs.add(match.group(1))
 
     def print_report(self):
+        print('-- Referenced fonts --')
         print(sorted(self.font_refs))
