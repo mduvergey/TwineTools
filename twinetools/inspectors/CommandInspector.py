@@ -10,7 +10,7 @@ class CommandInspector:
         for passage in story['passages']:
             for match in re.finditer(r'\{\{([^}]+)}}', passage['text']):
                 command = match.group(1)
-                parts = re.split(r':', command, 2)
+                parts = re.split(r':', command, 3)
                 if not parts[0] in self.distinct_commands:
                     self.distinct_commands[parts[0]] = []
                 self.distinct_commands[parts[0]].append({'command': parts[0], 'params': parts[1:]})
