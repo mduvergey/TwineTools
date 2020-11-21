@@ -12,4 +12,4 @@ class FontInspector:
                 self.font_refs.add(match.group(1))
 
     def print_report(self):
-        print(self.font_refs)
+        print(sorted(self.font_refs))
