@@ -16,5 +16,5 @@ class CommandInspector:
                 self.distinct_commands[parts[0]].append({'command': parts[0], 'params': parts[1:]})
 
     def print_report(self):
-        for (key, value) in self.distinct_commands.items():
+        for key, value in self.distinct_commands.items():
             print('{0}: {1}'.format(key, len(value)))
