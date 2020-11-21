@@ -22,4 +22,4 @@ if contents:
     # print(json.dumps(story))
 
     print(link_targets)
-    # parser.print_report()
+    parser.print_report()
