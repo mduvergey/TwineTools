@@ -4,7 +4,7 @@ class StoryPassage:
         self.name = name
         self.pid = pid
         self.text = text
-        self.tags = list(tags)
+        self.tags = tuple(tags)
         self.choices = []
 
     def add_choice(self, label, target=None):

@@ -6,7 +6,7 @@ from .StoryPassage import StoryPassage
 class TwineParser:
 
     def __init__(self, inspectors=()):
-        self.inspectors = inspectors
+        self.inspectors = tuple(inspectors)
         self.story = None
 
     def parse(self, twine_text):
