@@ -37,8 +37,8 @@ class TwineParser:
 
                 self.story['passages'].append({'pid': pid, 'name': name, 'tags': tags, 'text': passage_text, 'choices': choices})
 
-                for inspector in self.inspectors:
-                    inspector.inspect(passage_text)
+        for inspector in self.inspectors:
+            inspector.inspect(self.story)
 
     def print_report(self):
         for inspector in self.inspectors:
