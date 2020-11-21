@@ -11,7 +11,7 @@ class CommandInspector:
 
     def __init__(self):
         self.distinct_commands = {}
-        self.unknown_commands = set()
+        self.unknown_commands = []
 
     def inspect(self, story):
         for name, passage in story.passages.items():
@@ -19,7 +19,7 @@ class CommandInspector:
                 command = match.group(1)
                 parts = re.split(r':', command, 3)
                 if not parts[0] in CommandInspector.known_commands:
-                    self.unknown_commands.add(parts[0])
+                    self.unknown_commands.append((passage, parts[0]))
                 if not parts[0] in self.distinct_commands:
                     self.distinct_commands[parts[0]] = []
                 self.distinct_commands[parts[0]].append({'command': parts[0], 'params': parts[1:]})
@@ -30,4 +30,5 @@ class CommandInspector:
             print('{0}: {1}'.format(key, len(value)))
         if len(self.unknown_commands):
             print('-- Unknown commands --')
-            print(self.unknown_commands)
+            for uc in self.unknown_commands:
+                print('Unknown command in passage "{0}": {1}'.format(uc[0].name, uc[1]))
