@@ -1,24 +1,26 @@
-import json
-import sys
+from argparse import ArgumentParser
 from twinetools import TwineParser
 from twinetools.inspectors import CommandInspector, FontInspector
 
+arg_parser = ArgumentParser(description='Extract information from Twine files.')
+arg_parser.add_argument('file', nargs='+', help='Twine HTML file to parse')
+arg_parser.add_argument('-f', '--list-fonts', help='List referenced fonts', action='store_true')
+arg_parser.add_argument('-c', '--list-commands', help='List interpreter commands', action='store_true')
+args = arg_parser.parse_args()
 
-with open(sys.argv[1], 'r') as f:
-    contents = f.read()
+for filename in args.file:
+    with open(filename, 'r') as f:
+        contents = f.read()
 
-if contents:
-    parser = TwineParser((CommandInspector(), FontInspector()))
+    if contents:
+        print('== Parsing file {0} =='.format(filename))
 
-    parser.parse(contents)
+        inspectors = []
+        if args.list_commands:
+            inspectors.append(CommandInspector())
+        if args.list_fonts:
+            inspectors.append(FontInspector())
 
-    link_targets = set()
-    for name, passage in parser.story.passages.items():
-        for choice in passage.choices:
-            link_targets.add(choice[1])
-
-    # print(story)
-    # print(json.dumps(story))
-
-    print(link_targets)
-    parser.print_report()
+        parser = TwineParser(inspectors)
+        parser.parse(contents)
+        parser.print_report()
