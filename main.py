@@ -8,7 +8,7 @@ with open(sys.argv[1], 'r') as f:
     contents = f.read()
 
 if contents:
-    parser = TwineParser([CommandInspector(), FontInspector()])
+    parser = TwineParser((CommandInspector(), FontInspector()))
 
     parser.parse(contents)
 

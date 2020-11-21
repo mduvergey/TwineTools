@@ -3,8 +3,8 @@ import re
 
 class TwineParser:
 
-    def __init__(self, inspectors=None):
-        self.inspectors = inspectors or []
+    def __init__(self, inspectors=()):
+        self.inspectors = inspectors
         self.story = None
 
     def parse(self, twine_text):
