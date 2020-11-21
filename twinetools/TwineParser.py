@@ -35,7 +35,8 @@ class TwineParser:
                     else:
                         choices.append({'label': parts[0], 'target': parts[1]})
 
-                self.story['passages'].append({'pid': pid, 'name': name, 'tags': tags, 'text': passage_text, 'choices': choices})
+                self.story['passages'].append({'pid': pid, 'name': name, 'tags': tags, 'text': passage_text,
+                                               'choices': choices})
 
         for inspector in self.inspectors:
             inspector.inspect(self.story)
