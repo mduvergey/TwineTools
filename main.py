@@ -13,9 +13,9 @@ if contents:
     parser.parse(contents)
 
     link_targets = set()
-    for passage in parser.story['passages']:
-        for choice in passage['choices']:
-            link_targets.add(choice['target'])
+    for name, passage in parser.story.passages.items():
+        for choice in passage.choices:
+            link_targets.add(choice[1])
 
     # print(story)
     # print(json.dumps(story))

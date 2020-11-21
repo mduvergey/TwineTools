@@ -1,4 +1,6 @@
 import re
+from .Story import Story
+from .StoryPassage import StoryPassage
 
 
 class TwineParser:
@@ -8,7 +10,7 @@ class TwineParser:
         self.story = None
 
     def parse(self, twine_text):
-        self.story = {'passages': []}
+        self.story = Story()
 
         matches = re.search(r'<tw-storydata.+</tw-storydata>', twine_text, re.DOTALL)
         if matches:
@@ -24,19 +26,19 @@ class TwineParser:
                 if matches:
                     tags = matches.group(1).split(' ')
                 else:
-                    tags = []
+                    tags = ()
 
-                choices = []
+                passage = StoryPassage(name, pid, passage_text, tags)
+
                 for m in re.finditer(r'\[\[([^]]+)]]', passage_text):
                     link = m.group(1)
                     parts = re.split(r'\|', link, 2)
                     if len(parts) == 1:
-                        choices.append({'label': parts[0], 'target': parts[0]})
+                        passage.add_choice(parts[0])
                     else:
-                        choices.append({'label': parts[0], 'target': parts[1]})
+                        passage.add_choice(parts[0], parts[1])
 
-                self.story['passages'].append({'pid': pid, 'name': name, 'tags': tags, 'text': passage_text,
-                                               'choices': choices})
+                self.story.add_passage(passage)
 
         for inspector in self.inspectors:
             inspector.inspect(self.story)

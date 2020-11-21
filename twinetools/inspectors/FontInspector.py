@@ -7,8 +7,8 @@ class FontInspector:
         self.font_refs = set()
 
     def inspect(self, story):
-        for passage in story['passages']:
-            for match in re.finditer(r'<font="([^"]+)">', passage['text']):
+        for name, passage in story.passages.items():
+            for match in re.finditer(r'<font="([^"]+)">', passage.text):
                 self.font_refs.add(match.group(1))
 
     def print_report(self):

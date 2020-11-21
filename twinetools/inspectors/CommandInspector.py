@@ -7,8 +7,8 @@ class CommandInspector:
         self.distinct_commands = {}
 
     def inspect(self, story):
-        for passage in story['passages']:
-            for match in re.finditer(r'\{\{([^}]+)}}', passage['text']):
+        for name, passage in story.passages.items():
+            for match in re.finditer(r'\{\{([^}]+)}}', passage.text):
                 command = match.group(1)
                 parts = re.split(r':', command, 3)
                 if not parts[0] in self.distinct_commands:
