@@ -9,18 +9,20 @@ arg_parser.add_argument('-c', '--list-commands', help='List interpreter commands
 args = arg_parser.parse_args()
 
 for filename in args.file:
-    with open(filename, 'r') as f:
-        contents = f.read()
+    try:
+        with open(filename, 'r') as f:
+            contents = f.read()
 
-    if contents:
-        print('== Parsing file {0} =='.format(filename))
+            print('== Parsing file {0} =='.format(filename))
 
-        inspectors = []
-        if args.list_commands:
-            inspectors.append(CommandInspector())
-        if args.list_fonts:
-            inspectors.append(FontInspector())
+            inspectors = []
+            if args.list_commands:
+                inspectors.append(CommandInspector())
+            if args.list_fonts:
+                inspectors.append(FontInspector())
 
-        parser = TwineParser(inspectors)
-        parser.parse(contents)
-        parser.print_report()
+            parser = TwineParser(inspectors)
+            parser.parse(contents)
+            parser.print_report()
+    except EnvironmentError:
+        print('Error: unable to read file {0}'.format(filename))
