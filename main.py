@@ -1,11 +1,12 @@
 from argparse import ArgumentParser
 from twinetools import TwineParser
-from twinetools.inspectors import CommandInspector, FontInspector
+from twinetools.inspectors import CommandInspector, FontInspector, PassageInspector
 
 arg_parser = ArgumentParser(description='Extract information from Twine files.')
 arg_parser.add_argument('file', nargs='+', help='Twine HTML file to parse')
-arg_parser.add_argument('-f', '--list-fonts', help='List referenced fonts', action='store_true')
 arg_parser.add_argument('-c', '--list-commands', help='List interpreter commands', action='store_true')
+arg_parser.add_argument('-f', '--list-fonts', help='List referenced fonts', action='store_true')
+arg_parser.add_argument('-p', '--dump-passages', help='Dump all passages', action='store_true')
 args = arg_parser.parse_args()
 
 for filename in args.file:
@@ -20,6 +21,8 @@ for filename in args.file:
                 inspectors.append(CommandInspector())
             if args.list_fonts:
                 inspectors.append(FontInspector())
+            if args.dump_passages:
+                inspectors.append(PassageInspector())
 
             parser = TwineParser(inspectors)
             parser.parse(contents)
