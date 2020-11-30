@@ -10,11 +10,12 @@ class TwineParser:
         self.story = None
 
     def parse(self, twine_text):
-        self.story = Story()
-
-        matches = re.search(r'<tw-storydata.+</tw-storydata>', twine_text, re.DOTALL)
+        matches = re.search(r'<tw-storydata([^>]+)>(.+)</tw-storydata>', twine_text, re.DOTALL)
         if matches:
-            story_data = matches.group(0)
+            name = re.search(r' name="([^"]+)" ', matches.group(1)).group(1)
+            self.story = Story(name)
+
+            story_data = matches.group(2)
             for match in re.finditer(r'<tw-passagedata([^>]+)>([^<]+)</tw-passagedata>', story_data):
                 passage_attributes = match.group(1)
                 passage_text = match.group(2).replace('&#39;', '\'').replace('&quot;', '"').replace('&lt;', '<')\
