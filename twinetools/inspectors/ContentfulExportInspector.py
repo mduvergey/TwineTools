@@ -4,8 +4,8 @@ import contentful_management
 class ContentfulExportInspector:
 
     def __init__(self, api_token, space_id):
-        self.space_id = space_id
-        self.client = contentful_management.Client(api_token)
+        client = contentful_management.Client(api_token)
+        self.environment = client.environments(space_id).find('master')
 
     def inspect(self, story):
         entry_attributes = {
@@ -16,7 +16,7 @@ class ContentfulExportInspector:
                 }
             }
         }
-        story_entry = self.client.entries(self.space_id, 'master').create(
+        story_entry = self.environment.entries().create(
             None,
             entry_attributes
         )
@@ -42,7 +42,7 @@ class ContentfulExportInspector:
                     }
                 }
             }
-            passage_entry = self.client.entries(self.space_id, 'master').create(
+            passage_entry = self.environment.entries().create(
                 None,
                 entry_attributes
             )
