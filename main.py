@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 from twinetools import TwineParser
-from twinetools.inspectors import CommandInspector, ContentfulExportInspector, FontInspector, PassageInspector
+from twinetools.inspectors import CommandInspector, ContentfulExportInspector, FontInspector, PassageInspector,\
+    BackgroundInspector, CharacterInspector
 
 arg_parser = ArgumentParser(description='Extract information from Twine files.')
 arg_parser.add_argument('file', nargs='+', help='Twine HTML file to parse')
@@ -8,6 +9,8 @@ arg_parser.add_argument('-c', '--list-commands', help='List interpreter commands
 arg_parser.add_argument('-e', '--export-to-contenful', help='Export stories to Contentful', action='store_true')
 arg_parser.add_argument('--contentful-api-token', help='Contentful Management API token')
 arg_parser.add_argument('--contentful-space-id', help='Contentful space ID')
+arg_parser.add_argument('-b', '--list-backgrounds', help='List referenced backgrounds', action='store_true')
+arg_parser.add_argument('-k', '--list-characters', help='List referenced characters', action='store_true')
 arg_parser.add_argument('-f', '--list-fonts', help='List referenced fonts', action='store_true')
 arg_parser.add_argument('-p', '--dump-passages', help='Dump all passages', action='store_true')
 args = arg_parser.parse_args()
@@ -24,6 +27,10 @@ for filename in args.file:
                 inspectors.append(CommandInspector())
             if args.export_to_contenful:
                 inspectors.append(ContentfulExportInspector(args.contentful_api_token, args.contentful_space_id))
+            if args.list_backgrounds:
+                inspectors.append(BackgroundInspector())
+            if args.list_characters:
+                inspectors.append(CharacterInspector())
             if args.list_fonts:
                 inspectors.append(FontInspector())
             if args.dump_passages:
